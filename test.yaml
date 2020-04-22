@@ -1,4 +1,4 @@
-version: "2.4"
+`version: "2.4"
 
 services:
     odoo:
@@ -30,6 +30,7 @@ services:
             - odoo
             - --workers=2
             - --max-cron-threads=1
+            -i base
 
     db:
         extends:
