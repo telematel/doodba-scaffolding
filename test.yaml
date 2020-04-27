@@ -26,6 +26,32 @@ services:
             traefik.frontend.headers.customResponseHeaders: "X-Robots-Tag:noindex, nofollow"
             traefik.longpolling.frontend.rule: "Host:${DOMAIN_TEST};PathPrefix:/longpolling/"
             traefik.www.frontend.rule: "Host:${DOMAIN_TEST}"
+            # Forbid crawlers
+            traefik.http.middlewares.test-12-0-test-forbid-crawlers.headers.customResponseHeaders.X-Robots-Tag:
+            noindex, nofollow
+            # Main service
+            traefik.http.middlewares.test-12-0-test-buffering.buffering.retryExpression:
+            IsNetworkError() && Attempts() < 5
+            traefik.http.middlewares.test-12-0-test-compress.compress: "true"
+            traefik.http.routers.test-12-0-test-main.entrypoints: "web-main"
+            traefik.http.routers.test-12-0-test-main.middlewares:
+              test-12-0-test-buffering,
+              test-12-0-test-compress,
+              test-12-0-test-forbid-crawlers
+            traefik.http.routers.test-12-0-test-main.rule: "host(`${DOMAIN_TEST}`)"
+            traefik.http.routers.test-12-0-test-main.service: "test-12-0-test-main"
+            traefik.http.routers.test-12-0-test-main.tls.certresolver: "letsencrypt"
+            traefik.http.services.test-12-0-test-main.loadbalancer.server.port: 8069
+            # Longpolling service
+            traefik.http.routers.test-12-0-test-longpolling.entrypoints: "web-main"
+            traefik.http.routers.test-12-0-test-longpolling.middlewares:
+              test-12-0-test-forbid-crawlers
+            traefik.http.routers.test-12-0-test-longpolling.rule:
+              "host(`${DOMAIN_TEST}`) && pathprefix(`/longpolling/`)"
+            traefik.http.routers.test-12-0-test-longpolling.service: "test-12-0-test-longpolling"
+            traefik.http.routers.test-12-0-test-longpolling.tls: "true"
+            traefik.http.routers.test-12-0-test-longpolling.tls.certresolver: "letsencrypt"
+            traefik.http.services.test-12-0-test-longpolling.loadbalancer.server.port: 8072
         command:
             - odoo
             - --workers=2
