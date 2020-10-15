@@ -37,7 +37,7 @@ services:
                 work_mem = 32MB
         volumes:
             - db:/var/lib/postgresql/data:z
-
+            - /tmp:/HOST_TMP
     smtpfake:
         image: mailhog/mailhog
 
