@@ -29,12 +29,12 @@ services:
 
     db:
         image: tecnativa/postgres-autoconf:${DB_VERSION}-alpine
-        shm_size: 512mb
+        shm_size: 2GB
         environment:
             POSTGRES_DB: *dbname
             POSTGRES_USER: *dbuser
             CONF_EXTRA: |
-                work_mem = 32MB
+                work_mem = 1GB
         volumes:
             - db:/var/lib/postgresql/data:z
             - /tmp:/HOST_TMP
