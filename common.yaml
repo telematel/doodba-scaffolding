@@ -19,6 +19,7 @@ services:
         tty: true
         volumes:
             - filestore:/var/lib/odoo:z
+            - /tmp:/HOST_TMP
         labels:
             traefik.backend.buffering.retryExpression: IsNetworkError() && Attempts() < 5
             traefik.docker.network: "inverseproxy_shared"
@@ -29,12 +30,12 @@ services:
 
     db:
         image: tecnativa/postgres-autoconf:${DB_VERSION}-alpine
-        shm_size: 2GB
+        shm_size: 512mb
         environment:
             POSTGRES_DB: *dbname
             POSTGRES_USER: *dbuser
             CONF_EXTRA: |
-                work_mem = 1GB
+                work_mem = 32MB
         volumes:
             - db:/var/lib/postgresql/data:z
             - /tmp:/HOST_TMP
