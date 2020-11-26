@@ -19,7 +19,7 @@ services:
         tty: true
         volumes:
             - filestore:/var/lib/odoo:z
-            - /tmp:/HOST_TMP
+            - /tmp:/HOST_TMP:z
         labels:
             traefik.backend.buffering.retryExpression: IsNetworkError() && Attempts() < 5
             traefik.docker.network: "inverseproxy_shared"
@@ -38,7 +38,7 @@ services:
                 work_mem = 32MB
         volumes:
             - db:/var/lib/postgresql/data:z
-            - /tmp:/HOST_TMP
+            - /tmp:/HOST_TMP:z
     smtpfake:
         image: mailhog/mailhog
 
