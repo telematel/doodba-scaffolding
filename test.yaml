@@ -25,7 +25,10 @@ services:
         labels:
             traefik.frontend.headers.customResponseHeaders: "X-Robots-Tag:noindex, nofollow"
             traefik.longpolling.frontend.rule: "Host:${DOMAIN_TEST};PathPrefix:/longpolling/"
-            traefik.www.frontend.rule: "Host:${DOMAIN_TEST}"            
+            traefik.www.frontend.rule: "Host:${DOMAIN_TEST}"
+            traefik.alt.frontend.redirect.regex: "^(.*)://${DOMAIN_PROD_ALT}/(.*)$$"
+            traefik.alt.frontend.redirect.replacement: "$$1://${DOMAIN_TEST}/$$2"
+            traefik.alt.frontend.rule: "Host:${DOMAIN_PROD_ALT}"
         command:
             - odoo
             - --workers=2
