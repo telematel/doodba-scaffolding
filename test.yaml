@@ -33,7 +33,7 @@ services:
             - odoo
             - --workers=2
             - --max-cron-threads=1
-            - -i base
+            - -i base,wedoo_sh_clean,web_environment_ribbon,wedoo_sh_cron
 
     db:
         extends:
