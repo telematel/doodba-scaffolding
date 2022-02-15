@@ -70,9 +70,6 @@ networks:
         internal: true
         driver_opts:
             encrypted: 1
-        ipam:
-            config:
-              - subnet: 10.10.1.0/24
 
     globalwhitelist_shared:
         external: true
