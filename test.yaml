@@ -31,7 +31,7 @@ services:
             traefik.alt.frontend.rule: "Host:${DOMAIN_PROD_ALT}"
         command:
             - odoo
-            - --workers=2
+            - --workers=6
             - --max-cron-threads=1
             - -i base,wedoo_sh_clean,web_environment_ribbon,wedoo_sh_cron
 
